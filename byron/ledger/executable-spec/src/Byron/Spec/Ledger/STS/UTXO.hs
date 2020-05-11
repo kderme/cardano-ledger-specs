@@ -21,7 +21,7 @@ module Byron.Spec.Ledger.STS.UTXO
   )
 where
 
-import           Cardano.Prelude (NoUnexpectedThunks(..))
+import           Cardano.Prelude (CanonicalExamples, NoUnexpectedThunks(..))
 import           Data.Data (Data, Typeable)
 import qualified Data.Set as Set
 import           GHC.Generics (Generic)
@@ -43,12 +43,12 @@ data UTXO deriving (Data, Typeable)
 data UTxOEnv = UTxOEnv
   { utxo0 :: UTxO
   , pps   :: PParams
-  } deriving (Eq, Show, Generic, NoUnexpectedThunks)
+  } deriving (Eq, Show, Generic, NoUnexpectedThunks, CanonicalExamples)
 
 data UTxOState = UTxOState
   { utxo     :: UTxO
   , reserves :: Lovelace
-  } deriving (Eq, Show, Generic, NoUnexpectedThunks)
+  } deriving (Eq, Show, Generic, NoUnexpectedThunks, CanonicalExamples)
 
 instance STS UTXO where
 
@@ -66,7 +66,7 @@ instance STS UTXO where
     | IncreasedTotalBalance
     | InputsNotInUTxO
     | NonPositiveOutputs
-    deriving (Eq, Show, Data, Typeable, Generic, NoUnexpectedThunks)
+    deriving (Eq, Show, Data, Typeable, Generic, NoUnexpectedThunks, CanonicalExamples)
 
   initialRules =
     [ do

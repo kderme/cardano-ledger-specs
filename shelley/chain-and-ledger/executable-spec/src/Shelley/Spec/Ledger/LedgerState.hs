@@ -393,6 +393,8 @@ instance Crypto crypto => FromCBOR (UTxOState crypto)
     us <- fromCBOR
     pure $ UTxOState ut dp fs us
 
+instance CanonicalExamples (UTxOState crypto)
+
 data OBftSlot crypto =
     NonActiveSlot
   | ActiveSlot !(KeyHash 'Genesis crypto)

@@ -15,7 +15,6 @@ module Data.AbstractSize
   ) where
 
 import qualified Crypto.Hash as Crypto
-import qualified Data.ByteString as BS
 import           Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import           Data.Sequence (Seq, empty, (<|), (><))
@@ -207,8 +206,9 @@ instance HasTypeReps (SignedDSIGN MockDSIGN a) where
   -- A mock signature consists of a 'ByteString' (which is in turn a short hash)
   -- and an 'Int'. For the 'ByteString' representation we return one character
   -- per byte.
-  typeReps (SignedDSIGN (SigMockDSIGN bs i)) =
-    typeOf i <| Seq.replicate (BS.length bs) (typeOf (undefined :: Char))
+  typeReps (SignedDSIGN (SigMockDSIGN _bs i)) =
+    -- TODO(kde) fix 0?
+    typeOf i <| Seq.replicate 0 (typeOf (undefined :: Char))
 
 instance HasTypeReps (VerKeyDSIGN MockDSIGN) where
   -- A mock verification key is just an 'Int'.

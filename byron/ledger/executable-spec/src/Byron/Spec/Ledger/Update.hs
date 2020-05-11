@@ -24,7 +24,8 @@ module Byron.Spec.Ledger.Update
   )
 where
 
-import           Cardano.Prelude (NoUnexpectedThunks(..))
+import           Cardano.Prelude (CanonicalExamples, NoUnexpectedThunks(..))
+import           Cardano.Prelude.CanonicalExamples.Orphans ()
 import           Control.Arrow (second, (&&&))
 import           Control.Lens
 import           Control.Monad (mzero)
@@ -76,22 +77,22 @@ import           Prelude
 
 newtype FactorA = FactorA Int
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks, CanonicalExamples)
   deriving anyclass (HasTypeReps)
 
 newtype FactorB = FactorB Int
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks, CanonicalExamples)
   deriving anyclass (HasTypeReps)
 
 newtype UpAdptThd = UpAdptThd Double
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Hashable, Num, Real, Fractional, RealFrac, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Hashable, Num, Real, Fractional, RealFrac, NoUnexpectedThunks, CanonicalExamples)
   deriving anyclass (HasTypeReps)
 
 newtype BkSgnCntT = BkSgnCntT Double
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Hashable, Num, Fractional, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Hashable, Num, Fractional, NoUnexpectedThunks, CanonicalExamples)
   deriving anyclass (HasTypeReps)
 
 -- | Protocol parameters.
@@ -123,7 +124,7 @@ data PParams = PParams -- TODO: this should be a module of @byron-spec-ledger@.
   -- ^ Minimum fees per transaction
   , _factorB :: !FactorB
   -- ^ Additional fees per transaction size
-  } deriving (Eq, Generic, Ord, Show, Hashable, Data, Typeable, NoUnexpectedThunks)
+  } deriving (Eq, Generic, Ord, Show, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 makeLenses ''PParams
 
@@ -131,7 +132,7 @@ instance HasTypeReps PParams
 
 newtype UpId = UpId Int
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks, CanonicalExamples)
   deriving anyclass (HasTypeReps)
 
 -- | Protocol version
@@ -139,7 +140,7 @@ data ProtVer = ProtVer
   { _pvMaj :: Natural
   , _pvMin :: Natural
   , _pvAlt :: Natural
-  } deriving (Eq, Generic, Ord, Show, Hashable, Data, Typeable, NoUnexpectedThunks)
+  } deriving (Eq, Generic, Ord, Show, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 makeLenses ''ProtVer
 
@@ -147,21 +148,21 @@ instance HasTypeReps ProtVer
 
 newtype ApName = ApName String
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Hashable, NoUnexpectedThunks, CanonicalExamples)
 
 instance HasTypeReps ApName
 
 -- | Application version
 newtype ApVer = ApVer Natural
   deriving stock (Generic, Show, Data, Typeable)
-  deriving newtype (Eq, Ord, Num, Hashable, NoUnexpectedThunks)
+  deriving newtype (Eq, Ord, Num, Hashable, NoUnexpectedThunks, CanonicalExamples)
 
 instance HasTypeReps ApVer
 
 data SwVer = SwVer
   { _svName :: ApName
   , _svVer :: ApVer
-  } deriving (Eq, Generic, Show, Hashable, Data, Typeable, NoUnexpectedThunks)
+  } deriving (Eq, Generic, Show, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 makeLenses ''SwVer
 
@@ -183,7 +184,7 @@ type STag = String
 
 -- | For now we do not have any requirements on metadata.
 data Metadata = Metadata
-  deriving (Eq, Ord, Show, Generic, Hashable, Data, Typeable, NoUnexpectedThunks)
+  deriving (Eq, Ord, Show, Generic, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 -- | Update proposal
 data UProp = UProp
@@ -197,7 +198,7 @@ data UProp = UProp
   -- ^ System tags involved in the update proposal.
   , _upMdt :: Metadata
   -- ^ Metadata required for performing software updates.
-  } deriving (Eq, Generic, Show, Hashable, Data, Typeable, NoUnexpectedThunks)
+  } deriving (Eq, Generic, Show, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 
 -- We need the Hashable instance before making lenses.
@@ -542,7 +543,7 @@ data Vote = Vote
   { _vCaster :: Core.VKey
   , _vPropId :: UpId
   , _vSig :: Core.Sig UpId
-  } deriving (Eq, Generic, Show, Hashable, Data, Typeable, NoUnexpectedThunks)
+  } deriving (Eq, Generic, Show, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 
 makeLenses ''Vote

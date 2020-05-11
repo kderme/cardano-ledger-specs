@@ -33,6 +33,7 @@ library
   build-depends:       base >=4.11 && <5
                      , bimap >=0.4 && <0.5
                      , bytestring
+                     , cardano-prelude
                      , containers
                      , byron-spec-ledger
                      , goblins

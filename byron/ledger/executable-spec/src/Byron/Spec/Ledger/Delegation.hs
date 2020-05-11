@@ -92,7 +92,8 @@ module Byron.Spec.Ledger.Delegation
   )
 where
 
-import           Cardano.Prelude (NoUnexpectedThunks(..), allNoUnexpectedThunks, noUnexpectedThunksInKeysAndValues)
+import           Cardano.Prelude (NoUnexpectedThunks(..), CanonicalExamples(..),
+                     allNoUnexpectedThunks, noUnexpectedThunksInKeysAndValues)
 import           Control.Arrow ((&&&))
 import           Control.Lens (Lens', lens, makeFields, to, (%~), (&), (.~), (<>~), (^.), _1)
 import           Data.AbstractSize
@@ -149,7 +150,7 @@ data DCert = DCert
   , depoch :: Epoch
     -- | Witness for the delegation certificate
   , signature :: Sig (VKey, Epoch)
-  } deriving (Show, Eq, Ord, Generic, Hashable, Data, Typeable, NoUnexpectedThunks)
+  } deriving (Show, Eq, Ord, Generic, Hashable, Data, Typeable, NoUnexpectedThunks, CanonicalExamples)
 
 instance HasTypeReps DCert
 
@@ -243,6 +244,14 @@ instance NoUnexpectedThunks DIState where
       , whnfNoUnexpectedThunks ctxt sds
       , whnfNoUnexpectedThunks ctxt sked
       ]
+
+instance CanonicalExamples DIState where
+  canonicalExamples = do
+    dms  <- fmap Bimap.fromList <$> canonicalExamples
+    lds  <- canonicalExamples
+    sds  <- canonicalExamples
+    keds <- canonicalExamples
+    return [DIState d l s ked | d <- dms , l <- lds, s <- sds, ked <- keds]
 
 dmsL :: HasDelegationMap a (Bimap VKeyGenesis VKey)
     => Lens' a (Bimap VKeyGenesis VKey)
