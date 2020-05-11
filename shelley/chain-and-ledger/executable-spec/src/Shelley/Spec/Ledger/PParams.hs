@@ -43,6 +43,7 @@ import Data.List (nub)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Maybe (fromMaybe)
+import Data.Word (Word)
 import GHC.Generics (Generic)
 import Numeric.Natural (Natural)
 import Shelley.Spec.Ledger.BaseTypes
@@ -156,7 +157,15 @@ instance NoUnexpectedThunks ProtVer
 
 instance ToCBORGroup ProtVer where
   toCBORGroup (ProtVer x y) = toCBOR x <> toCBOR y
+  encodedGroupSizeExpr size proxy =
+        encodedSizeExpr size ((\(ProtVer x _) -> toWord x) <$> proxy)
+      + encodedSizeExpr size ((\(ProtVer _ y) -> toWord y) <$> proxy)
+    where
+      toWord :: Natural -> Word
+      toWord = fromIntegral
+
   listLen _ = 2
+  listLenBound _ = 2
 
 instance FromCBORGroup ProtVer where
   fromCBORGroup = do
