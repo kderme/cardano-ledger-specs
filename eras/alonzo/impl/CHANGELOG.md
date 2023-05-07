@@ -1,5 +1,9 @@
 # Version history for `cardano-ledger-alonzo`
 
+## 1.1.1.1
+
+* Fix an issue where `TotalDeposits` didn't appear on Alonzo era
+
 ## 1.1.1.0
 
 * Fix a bug of converting a mint field to the plutus context: [#3398](https://github.com/input-output-hk/cardano-ledger/pull/3398)

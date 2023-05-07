@@ -1,5 +1,9 @@
 # Version history for `cardano-ledger-babbage`
 
+## 1.1.0.1
+
+* Fix an issue where `TotalDeposits` didn't appear on Babbage era
+
 ## 1.1.0.0
 
 * Add `ToJSON` instance for `BabbageTxOut`.
